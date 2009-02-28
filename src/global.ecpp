@@ -1,0 +1,44 @@
+<%pre>
+#include <map>
+#include <vector>
+#include <zim/files.h>
+#include <zim/article.h>
+#include <zim/articlesearch.h>
+#include <zim/search.h>
+#include <zim/qunicode.h>
+#include <cxxtools/timespan.h>
+
+static const int typeSpecial = -1;
+static const int typeArticle = 0;
+static const int typeHistory = 1;
+
+</%pre>
+<%config>
+
+ZenoPath = ".";
+ZenoFixFile;
+bool RedirectNumeric = false;
+
+</%config>
+<%application scope="global">
+
+zim::Files files(ZenoPath, ZenoFixFile);
+
+</%application>
+<%session scope="global">
+
+zim::Article article;
+std::string searchExpression;
+zim::Search::Results result;
+zim::Search::Results bresult;
+std::string browse_a("~~~~~~~~~~");
+char ns_a('\0');
+zim::ArticleSearch::Results articles;
+
+</%session>
+<%request scope="global">
+cxxtools::Timespan t0(cxxtools::Timespan::gettimeofday());
+zim::QUnicodeString title;
+unsigned s;
+unsigned t;
+</%request>

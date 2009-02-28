@@ -1,0 +1,11 @@
+<%include>global.ecpp</%include>
+<%cpp>
+
+  log_debug("send article \"" << article.getTitle() << "\" content type " << article.getMimeType());
+  reply.setContentType(article.getMimeType());
+  if (article.getRedirectFlag())
+    reply.out() << "<a href=\"" << article.getData() << "\">Siehe " << article.getData() << "</a>";
+  else
+    reply.out() << article.getData();
+
+</%cpp>

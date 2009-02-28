@@ -1,0 +1,33 @@
+<%args>
+a;
+char ns = 'A';
+unsigned p = 0;  // current page
+unsigned n = 20; // items per page
+</%args>
+<%include>global.ecpp</%include>
+<%pre>
+#include <zim/search.h>
+#include <cxxtools/iconverter.h>
+</%pre>
+<%cpp>
+
+  log_debug("browseresults ns=" << ns << " prefix=\"" << a << '"');
+
+  if (browse_a != a || ns_a != ns)
+  {
+    bresult.clear();
+    zim::Search search(files);
+    log_debug("find \"" << a << '"');
+    search.find(bresult, ns, zim::QUnicodeString::fromUtf8(a));
+    browse_a = a;
+    ns_a = ns;
+  }
+
+</%cpp>
+<&pager qparam link=("/~/browse?a=" + a + "&ns=" + ns + '&') rs=(bresult.size())>
+<hr>
+<ul>
+% for (unsigned i = s; i < bresult.size() && i < t; ++i) {
+    <li><a href="/<$$ bresult[i].getArticle().getUrl() $>"><$$ bresult[i].getArticle().getTitle().toXML() $></a></li>
+% }
+</ul>

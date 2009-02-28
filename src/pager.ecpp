@@ -1,0 +1,47 @@
+<%include>global.ecpp</%include>
+<%args>
+unsigned p = 0;  // current page
+unsigned n = 20; // items per page
+unsigned rs;     // total
+link;
+</%args>
+<%cpp>
+
+s = p * n;
+
+if (s > rs)
+{
+  p = 0;
+  s = 0;
+}
+
+t = s + n;
+if (t > rs)
+  t = rs;
+
+</%cpp>
+<div class="sstat">Artikel gesamt: <$rs$></div>
+<table id="z_browsenum">
+ <tr>
+  <td>
+% for (unsigned pp = 0; pp < p; ++pp) {
+    <a href="<$$link$>p=<$ pp $>"><$ (pp + 1) * n $></a>
+% }
+   <span class="z_azact">
+    <$ s + 1 $> - <$ t $>
+   </span>
+% if (t < rs) {
+    <a href="<$$link$>p=<$ p + 1 $>"><$ (p + 2) * n $></a> ...
+% }
+  </td>
+
+  <td align="right">
+% if (p > 0) {
+   <a href="<$$link$>p=<$ p - 1 $>">&lt; Zur&uuml;ck</a>
+% }
+% if (t < rs) {
+   <a href="<$$link$>p=<$ p + 1 $>">Vor &gt;</a>
+% }
+  </td>
+ </tr>
+</table>

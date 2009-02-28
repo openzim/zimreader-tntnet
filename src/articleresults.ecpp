@@ -1,0 +1,11 @@
+<%include>global.ecpp</%include>
+<%args>
+unsigned p = 0;  // current page
+unsigned n = 20; // items per page
+</%args>
+<%cpp>
+  for (ArticlesType::const_iterator it = articles.begin(); it != articles.end(); ++it)
+  {
+    reqply.out() << it->getTitle() << "<br>\n";
+  }
+</%cpp>

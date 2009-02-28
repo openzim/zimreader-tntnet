@@ -1,0 +1,6 @@
+<%include>global.ecpp</%include>
+<ul>
+% for (zim::ArticleSearch::Results::const_iterator it = articles.begin(); it != articles.end(); ++it) {
+    <li><a href="<$$ it->getUrl().toXML() $>"><$$ it->getTitle().toXML() $> (<$ it->getIndex() $>)</a></li>
+% }
+</ul>

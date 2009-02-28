@@ -1,0 +1,55 @@
+<%config>
+bool DisableCache = false;
+Charset = "iso-8859-1";
+</%config>
+<%include>global.ecpp</%include>
+<%cpp>
+
+  if (request.getArgs().size() == 0)
+    return DECLINED;
+
+  std::string host = request.getHeader(tnt::httpheader::host);
+  if (host.empty())
+    host = "localhost";
+
+  zim::File file;
+
+  std::string zimFileName = request.getArg(0);
+  zimFilesType::const_iterator it = zimFiles.find(zimFileName);
+  if (it == zimFiles.end())
+  {
+    file = zim::File(zimFileName);
+    zimFiles[zimFileName] = file;
+  }
+  else
+  {
+    file = it->second;
+  }
+
+  if (DisableCache || article.getUrl() != request.getPathInfo())
+  {
+    log_debug("search article " << request.getPathInfo());
+    article = file.getArticle(request.getPathInfo());
+  }
+  else
+    log_debug("article " << request.getPathInfo());
+
+  if (!article)
+  {
+    log_warn("article " << request.getPathInfo() << " not found");
+  }
+  else
+  {
+    log_debug("article " << request.getPathInfo() << " fetched - mime-type "
+      << article.getLibraryMimeType());
+
+    if (article.getLibraryMimeType() != zim::Dirent::zimMimeTextHtml)
+    {
+      log_debug("send non-html data");
+      callComp("article", request, reply);
+      return HTTP_OK;
+    }
+  }
+
+</%cpp>
+<& skin qparam nextComp="article" type=(typeArticle) >

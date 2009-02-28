@@ -1,0 +1,70 @@
+<%include>global.ecpp</%include>
+<%args>
+go; // Artikel
+ft; // Volltext
+</%args>
+<%pre>
+#include <zim/search.h>
+</%pre>
+<%config>
+double weightTitle = zim::Search::getWeightTitle();
+double weightOcc = zim::Search::getWeightOcc();
+double weightOccOff = zim::Search::getWeightOccOff();
+double weightPlus = zim::Search::getWeightPlus();
+double weightDist = zim::Search::getWeightDist();
+double weightPos = zim::Search::getWeightPos();
+double weightDistinctWords = zim::Search::getWeightDistinctWords();
+</%config>
+<%cpp>
+
+  zim::Search::setWeightTitle(weightTitle);
+  zim::Search::setWeightOcc(weightOcc);
+  zim::Search::setWeightOccOff(weightOccOff);
+  zim::Search::setWeightPlus(weightPlus);
+  zim::Search::setWeightDist(weightDist);
+  zim::Search::setWeightPos(weightPos);
+  zim::Search::setWeightDistinctWords(weightDistinctWords);
+
+  if (!ft.empty())
+    return fulltext(request, reply, qparam);
+
+  if (!articles.empty())
+  {
+</%cpp>
+<& skin qparam nextComp="searcharticles" type=(typeSpecial) >
+<%cpp>
+  }
+  else
+  {
+    title = zim::QUnicodeString("Suche nach: " + result.getExpression());
+</%cpp>
+<& skin qparam nextComp="searchresults" type=(typeSpecial) >
+<%cpp>
+  }
+
+</%cpp>
+%
+<%def fulltext>
+<%args>
+e;  // Begriff
+</%args>
+<%pre>
+#include <cxxtools/iconverter.h>
+</%pre>
+<%cpp>
+
+  articles.clear();
+
+  log_debug("search expression \"" << e << '"');
+  static cxxtools::IConverter iso8859_utf8("UTF-8", "ISO-8859-1");
+  zim::Search search(files);
+  result.clear();
+  search.search(result, iso8859_utf8(e));
+
+  log_debug(result.size() << " articles found");
+
+  title = zim::QUnicodeString("Suche nach: " + e);
+
+</%cpp>
+<& skin qparam nextComp="searchresults" type=(typeSpecial) >
+</%def>

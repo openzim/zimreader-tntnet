@@ -1,0 +1,94 @@
+<%config>
+bool DisableCache = false;
+</%config>
+<%include>global.ecpp</%include>
+<%pre>
+#include "backgroundreader.h"
+#include <cxxtools/iconverter.h>
+</%pre>
+<%application>
+zim::Backgroundreader reader(files);
+bool lastFoundUtf8(true);
+</%application>
+<%cpp>
+
+  if (request.getArgs().size() == 0)
+    return DECLINED;
+
+  std::string host = request.getHeader(tnt::httpheader::host);
+  if (host.empty())
+    host = "localhost";
+
+  title.clear();
+
+  char ns = request.getArgDef(0, "A").at(0);
+  std::string fname;
+  if (request.getArgsCount() > 1)
+    fname = request.getArg(1);
+
+  static cxxtools::IConverter iso8859_utf8("UTF-8", "ISO-8859-1");
+
+  zim::QUnicodeString pathInfo;
+  pathInfo = zim::QUnicodeString::fromUtf8(
+    lastFoundUtf8 ? request.getPathInfo()
+                  : iso8859_utf8.convert(request.getPathInfo()));
+
+  zim::QUnicodeString pathInfoAlt;
+  pathInfoAlt = zim::QUnicodeString::fromUtf8(
+    lastFoundUtf8 ? iso8859_utf8.convert(request.getPathInfo())
+                  : request.getPathInfo());
+
+  if (DisableCache || (article.getUrl() != pathInfo && article.getUrl() != pathInfoAlt))
+  {
+    log_debug("search article \"" << pathInfo << "\" namespace " << ns << " encoding " << (lastFoundUtf8 ? "utf-8" : "iso-8859-1"));
+    article = reader.getArticle(fname, ns, pathInfo);
+  }
+  else
+    log_debug("use cached article " << (lastFoundUtf8 ? pathInfo : pathInfoAlt));
+
+  if (!article)
+  {
+    // article not found with last encoding - try other one
+    if (pathInfoAlt != pathInfo)
+    {
+      // different encoding has a other result - try this one
+      log_debug("search article \"" << pathInfoAlt << "\" encoding " << (lastFoundUtf8 ? "iso-8859-1" : "utf-8"));
+      article = files.getArticle(fname, ns, pathInfoAlt);
+    }
+
+    if (article)
+    {
+      lastFoundUtf8 = !lastFoundUtf8;
+      log_debug("switch to " << (lastFoundUtf8 ? "utf-8" : "iso-8859-1"));
+    }
+    else
+    {
+      log_warn("article " << pathInfo << " not found");
+      return DECLINED;
+    }
+  }
+
+  log_debug("article " << pathInfo << " fetched - mime-type "
+    << article.getLibraryMimeType() << " redirect " << article.getRedirectFlag());
+
+  if (article.getRedirectFlag())
+  {
+    article = article.getRedirectArticle();
+    log_debug("redirect to " << article.getTitle().toUtf8());
+    return reply.redirect(article.getTitle().toUtf8());
+  }
+  else if (article.getLibraryMimeType() != zim::Dirent::zimMimeTextHtml)
+  {
+    log_debug("send non-html data");
+    callComp("article", request, reply, qparam);
+    return HTTP_OK;
+  }
+
+  title = article.getTitle();
+
+  int type = request.getPathInfo()[0] == '-' ? typeSpecial
+           : article.getNamespace() == 'Q'   ? typeHistory
+           : typeArticle;
+
+</%cpp>
+<& skin qparam nextComp="article" type=(type) >

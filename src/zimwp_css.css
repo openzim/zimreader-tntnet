@@ -1,0 +1,204 @@
+div#z_az {
+  background-color: 	#f9f9f9;
+  border-top: 1px solid black;
+}
+
+div#z_az p {
+  margin: 0.4em;
+}
+
+.z_azact {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+table#z_browsenum {
+  background-color: 	#f9f9f9;
+  border-top: 1px solid black;
+  width: 100%;
+  font-size: 1em;
+}
+
+
+
+form#z_stwsearch {
+  padding: 0.5em;
+  margin: 0em;
+}
+
+form#z_stwsearch p {
+  padding: 0.0em;
+  margin: 0em;
+}
+
+
+table.z_lemtab {
+  border-collapse: collapse;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+
+}
+
+table.z_lemtab td {
+  border-left: 1px dashed black;
+  border-right: 1px dashed black;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  vertical-align: top;
+}
+
+
+
+#shead {
+margin-left:0; 
+padding-left:0
+}
+
+#shead p{
+font-size: 1.2em;
+margin-left:0; 
+padding-left:0
+}
+
+.sstat {
+font-size: 0.8em;
+}
+
+
+.slib {
+font-weight: bold;
+font-size: 1.0em;
+}
+
+.slib ul {
+list-style-type: none;
+list-style-image: none;
+margin-left:0; 
+padding-left:0
+}
+
+.slib li {
+list-style-type: none;
+list-style-image: none;
+margin-left:0; 
+padding-left:0em;
+margin-bottom: 0.5em;
+}
+
+.sart ul {
+list-style-type: none;
+list-style-image: none;
+margin-left:0; 
+padding-left:0;
+}
+
+.sart li {
+list-style-type: none;
+list-style-image: none;
+margin-left:0; 
+margin-bottom: 0.5em;
+padding-left:1em;
+}
+
+
+.ssam {
+font-weight: normal;
+font-size: 1.0em;
+background-color: #FAFAD2;
+border-style:solid;
+border-color: 	#F4A460;
+border-width:1px;
+padding-left:1em;
+padding-right:1em;
+}
+
+
+.pm a:link {
+  color: black; background-color: white;
+  text-decoration: none;
+}
+.pm  a:visited {
+  color: black; background-color: white;
+  text-decoration: none;
+}
+.pm  a:hover {
+  color: black; background-color: #dddddd;
+  text-decoration: none;
+}
+.pm  a:active {
+  color: white; background-color: gray;
+  text-decoration: none;
+}
+
+
+table#nav1flat {
+  width: 100%;
+  font-size: 1em;
+  border-bottom: 1px solid blue;
+}
+
+
+
+.hl0 {
+background-color: yellow;
+}
+.hl1 {
+background-color: #ADFF2F;
+}
+.hl2 {
+background-color: #F4A460;
+}
+.hl3 {
+background-color: #40E0D0;
+}
+.hl4 {
+background-color: #87CEEB;
+}
+.hl5 {
+background-color: #EE82EE;
+}
+.hl6 {
+background-color: #FFD700;
+}
+.hl7 {
+background-color: #EEE8AA;
+}
+.hl8 {
+background-color: #9ACD32;
+}
+
+
+.wikiautoren table {
+  width: 100%;
+}
+
+.wikiautoren th {
+  text-align: left;
+  background-color: #CCCCFF;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.wikiautoren td {
+  margin: 0px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.wikiautoren tr {
+  text-align: left;
+}
+.wikiautoren tr.wikiautoren1 {
+  background-color: #EEFFFF;
+}
+
+.wikiautoren tr.wikiautoren2 {
+  background-color: #FFFFFF;
+}
+
+
+.zimgallerytext {
+  font-size: 0.9em;
+}

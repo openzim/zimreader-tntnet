@@ -1,0 +1,41 @@
+<%args>
+a;
+char ns = 'A';
+</%args>
+<%include>global.ecpp</%include>
+<script type="text/javascript">
+
+var content = "<$a$>";
+function getresult()
+{
+  var v = document.getElementById("a").value;
+  ajaxGet("/~/browseresults?ns=<$ns$>&a=" + encodeURI(v),
+    function(request)
+    {
+      document.getElementById("browseresults")
+              .innerHTML = request.responseText;
+    } );
+}
+
+var timer;
+function getresultdelay()
+{
+  if (timer)
+    window.clearTimeout(timer);
+  timer = window.setTimeout("getresult()", 500);
+}
+
+</script>
+<div id="z_az">
+<form action="~/browse">
+Artikelsuche: <input type="text" id="a" name="a" value="<$a$>" onKeyup="getresultdelay()">
+<input type="submit" id="ua" value="absenden">
+<script type="text/javascript">
+document.getElementById("ua").style.display = "none";
+document.getElementById("a").focus();
+</script>
+</form>
+</div>
+<div id="browseresults">
+<& browseresults qparam >
+</div>
