@@ -1,0 +1,94 @@
+#!/bin/sh
+
+SETTINGS=$HOME/.TntReader
+
+if [ ! -f $SETTINGS ]
+then
+    echo "[TntReader]
+port=8080
+localonly=x
+directory=.
+fixfile=Wikipedia2.zeno" >$SETTINGS
+
+fi
+
+getval () {
+  var=$1
+  def=$2
+  val=`awk 'BEGIN { FS="=" } $1 == "'$var'" { print $2 }' $SETTINGS 2>/dev/null`
+  [ "$val" ] || val=$def
+  echo $val
+}
+
+port=`getval port 8000`
+localonly=`getval localonly`
+directory=`getval directory .`
+fixfile=`getval fixfile Wikipedia2.zeno`
+
+while true
+  do
+    echo -en "
+
+
+    TntReader
+    =========
+
+    1)\tVerzeichnis:    $directory
+    2)\tPort:           $port
+    3)\tKorrekturdatei: $fixfile
+    4)\t[$localonly] nur auf Anfragen vom lokalen Rechner antworten
+
+    9)\tEinstellungen speichern
+    X)\tEnde
+
+    Ihre Auswahl: "
+
+    read CH
+
+    case $CH in
+        1)
+            echo -n "Verzeichnis: "
+            read n
+            [ "$n" ] && directory=$n
+            ;;
+
+        2)
+            echo -n "Port: "
+            read n
+            [ "$n" ] && port=$n
+            ;;
+
+        3)
+            echo -n "Korrekturdatei (Datei aus Dateiverzeichnis oder voller Pfad): "
+            read n
+            [ "$n" ] && fixfile=$n
+            ;;
+
+        4)
+            if [ -z "$localonly" ]
+              then
+                localonly='x'
+              else
+                localonly=
+            fi
+            ;;
+
+        9)
+            echo "[TntReader]
+port=$port
+localonly=$localonly
+directory=$directory
+fixfile=$fixfile
+" >$SETTINGS
+            echo
+            echo "
+
+*** Die Einstellungen wurden gespeichert
+
+"
+            ;;
+
+        x|X)
+            exit
+    esac
+  done
