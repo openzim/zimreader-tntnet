@@ -12,7 +12,7 @@ unsigned int seed = static_cast<unsigned int>(time(0));
 <%cpp>
 
   zim::File articlesFile = files.getFirstFile('A');
-  if (!articlesFile)
+  if (!articlesFile.good())
     throw std::runtime_error("articlefile not found");
 
   do
@@ -23,7 +23,7 @@ unsigned int seed = static_cast<unsigned int>(time(0));
     log_debug("consider article " << article.getIndex() << ": " << article.getTitle());
     log_debug("mime-type: " << article.getLibraryMimeType() << " namespace: " << article.getNamespace());
 
-  } while (article.getLibraryMimeType() != zim::Dirent::zimMimeTextHtml
+  } while (article.getLibraryMimeType() != zim::zimMimeTextHtml
         || article.getNamespace() != 'A');
 
   log_info("choose article " << article.getIndex() << ": " << article.getTitle());
@@ -35,7 +35,7 @@ unsigned int seed = static_cast<unsigned int>(time(0));
   url << "/!/" << article.getIndex();
   reply.redirect(url.str());
 
-  if (article.getLibraryMimeType() != zim::Dirent::zimMimeTextHtml)
+  if (article.getLibraryMimeType() != zim::zimMimeTextHtml)
   {
     log_debug("send non-html data");
     callComp("article", request, reply, qparam);

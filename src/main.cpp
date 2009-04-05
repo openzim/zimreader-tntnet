@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
       settingsfile = HOME;
       settingsfile += '/';
     }
-    settingsfile += ".TntReader";
+    settingsfile += ".ZimReader";
 
     cxxtools::IniFile settings;
     
@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
     catch (const std::exception& e)
     {
       std::ofstream out(settingsfile.c_str());
-      out << "[TntReader]\n"
+      out << "[ZimReader]\n"
              "port=8080\n"
              "localonly=1\n"
              "directory=.\n";
@@ -81,19 +81,18 @@ int main(int argc, char* argv[])
       settings = cxxtools::IniFile(settingsfile.c_str());
     }
 
-    std::string listenIp = settings.getValue("TntReader", "listen", "");
+    std::string listenIp = settings.getValue("ZimReader", "listen", "");
 
     if (listenIp.empty())
     {
-      std::string localonly = settings.getValue("TntReader", "localonly", "0");
+      std::string localonly = settings.getValue("ZimReader", "localonly", "0");
       log_debug("localonly=<" << localonly << "> b:" << isTrue(localonly));
       listenIp = isTrue(localonly) ?  "127.0.0.1" : "0.0.0.0";
     }
 
-    unsigned short port = settings.getValueT<unsigned short>("TntReader", "port", 8080);
+    unsigned short port = settings.getValueT<unsigned short>("ZimReader", "port", 8080);
 
-    std::string directory = settings.getValue("TntReader", "directory", ".");
-    std::string fixfile = settings.getValue("TntReader", "fixfile", "Wikipedia2.zim");
+    std::string directory = settings.getValue("ZimReader", "directory", ".");
 
     tnt::Tntnet app;
     tnt::Worker::setEnableCompression(false);
@@ -129,12 +128,11 @@ int main(int argc, char* argv[])
     app.mapUrl(".*", "notfound");
 
     tnt::Tntconfig config;
-    config.setConfigValue("ZenoPath", directory);
-    config.setConfigValue("ZenoFixFile", fixfile);
+    config.setConfigValue("ZimPath", directory);
     tnt::Comploader::configure(config);
 
     std::cout << "Wikipedia ist jetzt unter http://localhost:" << port << "/ verfügbar\n"
-                 "Die Einstellungen können unter $HOME/.TntReader geändert werden" << std::endl;
+                 "Die Einstellungen können unter $HOME/.ZimReader geändert werden" << std::endl;
     app.run();
   }
   catch (const std::exception& e)

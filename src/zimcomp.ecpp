@@ -1,13 +1,8 @@
-<%config>
-bool DisableCache = false;
-</%config>
 <%include>global.ecpp</%include>
 <%pre>
-#include "backgroundreader.h"
 #include <cxxtools/iconverter.h>
 </%pre>
 <%application>
-zim::Backgroundreader reader(files);
 bool lastFoundUtf8(true);
 </%application>
 <%cpp>
@@ -38,15 +33,15 @@ bool lastFoundUtf8(true);
     lastFoundUtf8 ? iso8859_utf8.convert(request.getPathInfo())
                   : request.getPathInfo());
 
-  if (DisableCache || (article.getUrl() != pathInfo && article.getUrl() != pathInfoAlt))
+  if (article.good() && article.getUrl() != pathInfo && article.getUrl() != pathInfoAlt)
   {
     log_debug("search article \"" << pathInfo << "\" namespace " << ns << " encoding " << (lastFoundUtf8 ? "utf-8" : "iso-8859-1"));
-    article = reader.getArticle(fname, ns, pathInfo);
+    article = files.getArticle(fname, ns, pathInfo);
   }
   else
-    log_debug("use cached article " << (lastFoundUtf8 ? pathInfo : pathInfoAlt));
+    log_debug("use previous article " << (lastFoundUtf8 ? pathInfo : pathInfoAlt));
 
-  if (!article)
+  if (!article.good())
   {
     // article not found with last encoding - try other one
     if (pathInfoAlt != pathInfo)
@@ -56,7 +51,7 @@ bool lastFoundUtf8(true);
       article = files.getArticle(fname, ns, pathInfoAlt);
     }
 
-    if (article)
+    if (article.good())
     {
       lastFoundUtf8 = !lastFoundUtf8;
       log_debug("switch to " << (lastFoundUtf8 ? "utf-8" : "iso-8859-1"));
@@ -69,15 +64,15 @@ bool lastFoundUtf8(true);
   }
 
   log_debug("article " << pathInfo << " fetched - mime-type "
-    << article.getLibraryMimeType() << " redirect " << article.getRedirectFlag());
+    << article.getLibraryMimeType() << " redirect " << article.isRedirect());
 
-  if (article.getRedirectFlag())
+  if (article.isRedirect())
   {
     article = article.getRedirectArticle();
     log_debug("redirect to " << article.getTitle().toUtf8());
     return reply.redirect(article.getTitle().toUtf8());
   }
-  else if (article.getLibraryMimeType() != zim::Dirent::zimMimeTextHtml)
+  else if (article.getLibraryMimeType() != zim::zimMimeTextHtml)
   {
     log_debug("send non-html data");
     callComp("article", request, reply, qparam);

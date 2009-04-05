@@ -3,7 +3,7 @@
 
   log_debug("send article \"" << article.getTitle() << "\" content type " << article.getMimeType());
   reply.setContentType(article.getMimeType());
-  if (article.getRedirectFlag())
+  if (article.isRedirect())
     reply.out() << "<a href=\"" << article.getData() << "\">Siehe " << article.getData() << "</a>";
   else
     reply.out() << article.getData();

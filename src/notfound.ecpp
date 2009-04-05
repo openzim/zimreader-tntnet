@@ -10,7 +10,7 @@ bool first(true);
   {
     first = false;
 </%cpp>
-<& skin qparam nextComp="notfound" >
+<& skin qparam nextComp="notfound" type=-1 >
 <%cpp>
     return HTTP_OK;
   }

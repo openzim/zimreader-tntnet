@@ -15,14 +15,13 @@ static const int typeHistory = 1;
 </%pre>
 <%config>
 
-ZenoPath = ".";
-ZenoFixFile;
+ZimPath = ".";
 bool RedirectNumeric = false;
 
 </%config>
 <%application scope="global">
 
-zim::Files files(ZenoPath, ZenoFixFile);
+zim::Files files(ZimPath);
 
 </%application>
 <%session scope="global">

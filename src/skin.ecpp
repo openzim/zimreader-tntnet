@@ -5,6 +5,13 @@ int type = typeArticle;
 e;
 ns = "A";
 </%args>
+<%cpp>
+
+std::string url;
+if (article.good())
+  url = '/' + article.getUrl().toUtf8();
+
+</%cpp>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de" dir="ltr">
   <head>
@@ -23,7 +30,7 @@ ns = "A";
 		<script type=" text/javascript">
 			var skin = "monobook";
 			var stylepath = "";
-			var wgArticlePath = "/<$article.getUrl()$>";
+			var wgArticlePath = "<$url$>";
 			var wgScriptPath = "";
 			var wgServer = "http://<$request.getHeader(tnt::httpheader::host)$>";
 			var wgCanonicalNamespace = "";
@@ -77,11 +84,11 @@ ns = "A";
                <li id="ca-nstab-main">
 %   }
 %   if (type == typeHistory) {
-               <a href="/<$ns$>/<$ article.getTitle() $>">Artikel</a></li>
+               <a href="<$ url $>">Artikel</a></li>
                <li id="ca-history" class="selected">
-               <a href="/<$ article.getUrl() $>">Versionen/Autoren</a></li>
+               <a href="<$ url $>">Versionen/Autoren</a></li>
 %   } else {
-               <a href="/<$ article.getUrl() $>">Artikel</a></li>
+               <a href="<$ url $>">Artikel</a></li>
                <li id="ca-history">
                <a href="/Q/<$ article.getTitle() $>?ns=<$article.getNamespace()$>">Versionen/Autoren</a></li>
 %   }

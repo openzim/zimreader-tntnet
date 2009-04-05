@@ -18,8 +18,7 @@ S = commonPrint_css.css main_css.css wikibits_js.js monobookde_css.css \
 ZimReader_SOURCES = zimcomp.ecpp skin.ecpp \
 	search.ecpp searcharticles.ecpp searchresults.ecpp article.ecpp \
 	tntnet_png.png random.ecpp notfound.ecpp number.ecpp \
-	backgroundreader.cpp backgroundreader.h pager.ecpp \
-	browse.ecpp browsescreen.ecpp browseresults.ecpp \
+	pager.ecpp browse.ecpp browsescreen.ecpp browseresults.ecpp \
 	ajax_js.js redirect.ecpp main.cpp \
 	$(S)
 
