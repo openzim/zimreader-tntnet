@@ -83,6 +83,7 @@ if (article.good())
 %   } else {
                <li id="ca-nstab-main">
 %   }
+               <a href="<$ url $>">Artikel</a></li>
 % }
 			 </ul>
 		  </div>
