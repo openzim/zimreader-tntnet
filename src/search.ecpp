@@ -7,7 +7,6 @@ ft; // Volltext
 #include <zim/search.h>
 </%pre>
 <%config>
-double weightTitle = zim::Search::getWeightTitle();
 double weightOcc = zim::Search::getWeightOcc();
 double weightOccOff = zim::Search::getWeightOccOff();
 double weightPlus = zim::Search::getWeightPlus();
@@ -17,7 +16,6 @@ double weightDistinctWords = zim::Search::getWeightDistinctWords();
 </%config>
 <%cpp>
 
-  zim::Search::setWeightTitle(weightTitle);
   zim::Search::setWeightOcc(weightOcc);
   zim::Search::setWeightOccOff(weightOccOff);
   zim::Search::setWeightPlus(weightPlus);
@@ -57,7 +55,7 @@ e;  // Begriff
 
   log_debug("search expression \"" << e << '"');
   static cxxtools::IConverter iso8859_utf8("UTF-8", "ISO-8859-1");
-  zim::Search search(files);
+  zim::Search search(files.getFirstFile('A'), files.getFirstFile('X'));
   result.clear();
   search.search(result, iso8859_utf8(e));
 

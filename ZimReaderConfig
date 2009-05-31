@@ -7,8 +7,7 @@ then
     echo "[ZimReader]
 port=8080
 localonly=x
-directory=.
-fixfile=Wikipedia2.zeno" >$SETTINGS
+directory=." >$SETTINGS
 
 fi
 
@@ -23,7 +22,6 @@ getval () {
 port=`getval port 8000`
 localonly=`getval localonly`
 directory=`getval directory .`
-fixfile=`getval fixfile Wikipedia2.zeno`
 
 while true
   do
@@ -35,8 +33,7 @@ while true
 
     1)\tVerzeichnis:    $directory
     2)\tPort:           $port
-    3)\tKorrekturdatei: $fixfile
-    4)\t[$localonly] nur auf Anfragen vom lokalen Rechner antworten
+    8)\t[$localonly] nur auf Anfragen vom lokalen Rechner antworten
 
     9)\tEinstellungen speichern
     X)\tEnde
@@ -58,13 +55,7 @@ while true
             [ "$n" ] && port=$n
             ;;
 
-        3)
-            echo -n "Korrekturdatei (Datei aus Dateiverzeichnis oder voller Pfad): "
-            read n
-            [ "$n" ] && fixfile=$n
-            ;;
-
-        4)
+        8)
             if [ -z "$localonly" ]
               then
                 localonly='x'
@@ -78,7 +69,6 @@ while true
 port=$port
 localonly=$localonly
 directory=$directory
-fixfile=$fixfile
 " >$SETTINGS
             echo
             echo "

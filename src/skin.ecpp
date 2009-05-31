@@ -83,15 +83,6 @@ if (article.good())
 %   } else {
                <li id="ca-nstab-main">
 %   }
-%   if (type == typeHistory) {
-               <a href="<$ url $>">Artikel</a></li>
-               <li id="ca-history" class="selected">
-               <a href="<$ url $>">Versionen/Autoren</a></li>
-%   } else {
-               <a href="<$ url $>">Artikel</a></li>
-               <li id="ca-history">
-               <a href="/Q/<$ article.getTitle() $>?ns=<$article.getNamespace()$>">Versionen/Autoren</a></li>
-%   }
 % }
 			 </ul>
 		  </div>
@@ -99,7 +90,7 @@ if (article.good())
 		  		<h5>Ausgabe</h5>
 		  		<div class="pBody">
 		  			<ul>
-		  				<li>DVD-ROM-Ausgabe 2007</li>
+		  				<li>DVD-ROM-Ausgabe LinuxTag 2009</li>
 		  			</ul>
 		  		</div>
 		  	</div>
@@ -112,9 +103,7 @@ if (article.good())
 			 <div class="pBody">
 			   <ul>
 				 <li id="n-mainpage"><a href="/" title="Hauptseite anzeigen [z]" accesskey="z">Hauptseite</a></li>
-				 <li id="n-topics"><a href="/Wikipedia/B/Portal:Wikipedia+nach+Themen" title="Wikipedia nach Themen [t]" accesskey="t">Themenportale</a></li>
 				 <li id="n-alphindex"><a href="/~/browse?a=" title="Von A bis Z [a]" accesskey="a">Von A bis Z</a></li>
-				 <li id="n-images"><a href="/~/browse?ns=I" title="Abbildungen [i]" accesskey="i">Abbildungen</a></li>
 				 <li id="n-randompage"><a href="/~/random" title="Zuf&auml;lliger Artikel [x]" accesskey="x">Zuf&auml;lliger Artikel</a></li>
 % if (!articles.empty() || !result.empty()) {
 				 <li id="n-search"><a href="/~/search" title="zum Suchergebnis [s]" accesskey="s">zum Suchergebnis</a></li>

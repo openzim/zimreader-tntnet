@@ -20,7 +20,7 @@ if (t > rs)
   t = rs;
 
 </%cpp>
-<div class="sstat">Artikel gesamt: <$rs$></div>
+<div class="sstat">Artikel gesamt: <{ if (rs == 10000) { }>&gt;= 10000<{ } else { }><$rs$><{ } }></div>
 <table id="z_browsenum">
  <tr>
   <td>
