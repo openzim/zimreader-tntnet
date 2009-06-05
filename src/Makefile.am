@@ -22,7 +22,7 @@ ZimReader_SOURCES = zimcomp.ecpp skin.ecpp monobook_skin.ecpp \
 	tntnet_png.png random.ecpp notfound.ecpp number.ecpp \
 	pager.ecpp browse.ecpp browsescreen.ecpp browseresults.ecpp \
 	ajax_js.js redirect.ecpp main.cpp index.ecpp linuxtag2009.ecpp \
-	openzim_skin.ecpp openzim_css.css \
+	openzim_skin.ecpp openzim_css.css GFDL.ecpp \
 	$(S)
 
 ZimReader_LDFLAGS = -lzim -ltntnet

@@ -79,7 +79,7 @@ if (article.good())
       </tr>
       <tr>
         <td colspan="2" id="bottom">
-          <p>Der Inhalt der Seite steht unter der <a href="/-/GFDL_(englisch).html">GNU-Lizenz f&uuml;r freie Dokumentation</a>.</p>
+          <p>Der Inhalt der Seite steht unter der <a href="/~/GFDL">GNU-Lizenz f&uuml;r freie Dokumentation</a>.</p>
         </td>
       </tr>
     </table>
