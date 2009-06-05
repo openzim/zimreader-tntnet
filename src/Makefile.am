@@ -3,6 +3,8 @@ SUFFIXES=.ecpp .gif .jpg .css .js .ico
 	ecppc $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
 .png.cpp:
 	ecppc $(ECPPFLAGS) -b $(ECPPFLAGS_PNG) $<
+.jpg.cpp:
+	ecppc $(ECPPFLAGS) -b $(ECPPFLAGS_JPG) $<
 .js.cpp:
 	ecppc $(ECPPFLAGS) -b $(ECPPFLAGS_JS) $<
 .css.cpp:
@@ -15,11 +17,12 @@ bin_PROGRAMS = ZimReader
 S = commonPrint_css.css main_css.css wikibits_js.js monobookde_css.css \
     user_css.css zimwp_css.css Wiki_png.png common_css.css headbg_jpg.jpg
 
-ZimReader_SOURCES = zimcomp.ecpp skin.ecpp \
+ZimReader_SOURCES = zimcomp.ecpp skin.ecpp monobook_skin.ecpp \
 	search.ecpp searcharticles.ecpp searchresults.ecpp article.ecpp \
 	tntnet_png.png random.ecpp notfound.ecpp number.ecpp \
 	pager.ecpp browse.ecpp browsescreen.ecpp browseresults.ecpp \
-	ajax_js.js redirect.ecpp main.cpp \
+	ajax_js.js redirect.ecpp main.cpp index.ecpp linuxtag2009.ecpp \
+	openzim_skin.ecpp openzim_css.css \
 	$(S)
 
 ZimReader_LDFLAGS = -lzim -ltntnet

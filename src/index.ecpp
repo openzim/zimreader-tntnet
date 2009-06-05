@@ -1,0 +1,2 @@
+<%include>global.ecpp</%include>
+<& skin qparam nextComp="linuxtag2009" type=typeArticle >

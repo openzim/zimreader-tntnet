@@ -102,6 +102,7 @@ int main(int argc, char* argv[])
     app.listen(listenIp, port);
 
     app.mapUrl("^/$",                          "redirect");
+    app.mapUrl("^/$",                          "index");
     app.mapUrl("^/!/([0-9]+)$",                "$1", "number");
     app.mapUrl("^/-/([^.]+)\\.(.*)$",          "$1_$2");
     app.mapUrl("^/~/([^.]+)$",                 "$1");

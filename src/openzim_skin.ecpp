@@ -1,0 +1,87 @@
+<%include>global.ecpp</%include>
+<%args>
+nextComp;
+int type = typeArticle;
+e;
+ns = "A";
+</%args>
+<%cpp>
+
+std::string url;
+if (article.good())
+  url = '/' + article.getUrl().toUtf8();
+
+</%cpp>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/-/favicon.ico" />
+    <link rel="copyright" href="http://www.gnu.org/copyleft/fdl.html" />
+    <title><$$title.toXML()$> - Wikipedia</title>
+    <link rel="stylesheet" type="text/css" href="/~/openzim.css" />
+    <script type="text/javascript" src="/~/ajax.js"><!-- ajax js --></script>
+  </head>
+
+  <body>
+    <table id="top">
+      <tr>
+        <td id="left">
+          <div id="wikilogo" class="portlet">
+           <a href="/" title="Hauptseite"><img src="/~/Wiki.png" /></a>
+          </div>
+          <div id="navigation" class="portlet">
+           <h5>Navigation</h5>
+           <ul class="pbody">
+            <li id="n-mainpage"><a href="/" title="Hauptseite anzeigen [z]" accesskey="z">Hauptseite</a></li>
+            <li><a href="/~/browse?a=" title="Von A bis Z [a]" accesskey="a">Von A bis Z</a></li>
+            <li><a href="/~/random" title="Zuf&auml;lliger Artikel [x]" accesskey="x">Zuf&auml;lliger Artikel</a></li>
+           </ul>
+          </div>
+          <div id="search" class="portlet">
+            <h5>Suche</h5>
+            <div class="pbody">
+            <form method="get" action="/~/search" id="searchform">
+              <input type="text" id="searchInput" name="e" accesskey="f" value="<$e$>" /><br />
+              <input type="submit" name="ft" class="searchButton" value="Suchen" />
+            </form>
+           </div>
+          </div>
+          <div id="poweredby" class="portlet">
+            <h5>Powered by</h5>
+            <div class="pbody">
+              <a href="http://www.tntnet.org/"><img src="/-/tntnet.png" alt="powered by tntnet" title="powered by tntnet"/></a>
+              <div class="info"><$ cxxtools::Timespan::gettimeofday() - t0 $>s</div>
+            </div>
+          </div>
+        </td>
+        <td id="right">
+          <p class="ausgabe">DVD-ROM-Ausgabe LinuxTag 2009</p>
+            <ul class="tabs">
+% if (type == typeSpecial) {
+              <li id="ca-nstab-special" class="selected"><a href="/">Spezialseite</a></li>
+% } else {
+%   if (type == typeArticle) {
+              <li id="ca-nstab-main" class="selected">
+%   } else {
+              <li id="ca-nstab-main">
+%   }
+               <a href="<$ url $>">Artikel</a></li>
+% }
+            </ul>
+          <div id="content">
+% if (!title.getValue().empty()) {
+            <h1 class="firstHeading"><$$title.toXML()$></h1>
+% }
+            <& (nextComp) qparam >
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" id="bottom">
+          <p>Der Inhalt der Seite steht unter der <a href="/-/GFDL_(englisch).html">GNU-Lizenz f&uuml;r freie Dokumentation</a>.</p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
