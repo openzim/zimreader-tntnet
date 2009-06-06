@@ -1,13 +1,12 @@
 <%include>global.ecpp</%include>
 <%cpp>
-  for (zim::Files::iterator it = files.begin(); it != files.end(); ++it)
+
+  if (articleFile.getFileheader().hasMainPage())
   {
-    if (it->second.getFileheader().hasMainPage())
-    {
-      zim::Dirent dirent = it->second.getDirent(it->second.getFileheader().getMainPage());
-      return reply.redirect(dirent.getUrl().toUtf8());
-    }
+    zim::Dirent dirent = articleFile.getDirent(articleFile.getFileheader().getMainPage());
+    return reply.redirect(dirent.getUrl().toUtf8());
   }
 
   return DECLINED;
+
 </%cpp>

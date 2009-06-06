@@ -16,7 +16,7 @@ unsigned n = 20; // items per page
   if (browse_a != a || ns_a != ns)
   {
     bresult.clear();
-    zim::Search search(files.getFirstFile('A'), files.getFirstFile('X'));
+    zim::Search search(articleFile, indexFile);
     log_debug("find \"" << a << '"');
     search.find(bresult, ns, zim::QUnicodeString::fromUtf8(a));
     browse_a = a;

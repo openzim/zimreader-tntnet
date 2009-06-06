@@ -11,15 +11,11 @@ unsigned int seed = static_cast<unsigned int>(time(0));
 </%pre>
 <%cpp>
 
-  zim::File articlesFile = files.getFirstFile('A');
-  if (!articlesFile.good())
-    throw std::runtime_error("articlefile not found");
-
   do
   {
-    zim::size_type idx = static_cast<zim::size_type>(static_cast<double>(articlesFile.getCountArticles()) * rand_r(&seed) / RAND_MAX);
+    zim::size_type idx = static_cast<zim::size_type>(static_cast<double>(articleFile.getCountArticles()) * rand_r(&seed) / RAND_MAX);
 
-    article = articlesFile.getArticle(idx);
+    article = articleFile.getArticle(idx);
     log_debug("consider article " << article.getIndex() << ": " << article.getTitle());
     log_debug("mime-type: " << article.getLibraryMimeType() << " namespace: " << article.getNamespace());
 
@@ -28,23 +24,6 @@ unsigned int seed = static_cast<unsigned int>(time(0));
 
   log_info("choose article " << article.getIndex() << ": " << article.getTitle());
 
-  if (!RedirectNumeric)
-    reply.redirect('/' + article.getUrl().toUtf8());
-
-  std::ostringstream url;
-  url << "/!/" << article.getIndex();
-  reply.redirect(url.str());
-
-  if (article.getLibraryMimeType() != zim::zimMimeTextHtml)
-  {
-    log_debug("send non-html data");
-    callComp("article", request, reply, qparam);
-    return HTTP_OK;
-  }
-
-  title = article.getTitle();
-
-  int type = request.getPathInfo()[0] == '-' ? typeSpecial : typeArticle;
+  reply.redirect('/' + article.getUrl().toUtf8());
 
 </%cpp>
-<& skin qparam nextComp="article" type=(type) >

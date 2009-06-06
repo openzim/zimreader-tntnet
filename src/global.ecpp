@@ -1,29 +1,16 @@
 <%pre>
-#include <map>
-#include <vector>
-#include <zim/files.h>
 #include <zim/article.h>
 #include <zim/articlesearch.h>
 #include <zim/search.h>
 #include <zim/qunicode.h>
 #include <cxxtools/timespan.h>
+#include "main.h"
 
 static const int typeSpecial = -1;
 static const int typeArticle = 0;
 static const int typeHistory = 1;
 
 </%pre>
-<%config>
-
-ZimPath = ".";
-bool RedirectNumeric = false;
-
-</%config>
-<%application scope="global">
-
-zim::Files files(ZimPath);
-
-</%application>
 <%session scope="global">
 
 zim::Article article;

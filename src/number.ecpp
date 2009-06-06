@@ -3,26 +3,9 @@
 
   zim::size_type idx = tnt::stringTo<zim::size_type>(request.getPathInfo());
 
-  zim::File articlesFile = files.getFirstFile('A');
-  if (!articlesFile.good())
-    throw std::runtime_error("articlefile not found");
-
-  article = articlesFile.getArticle(idx);
+  article = articleFile.getArticle(idx);
   log_info("choose article " << article.getIndex() << ": " << article.getTitle() << " url:" << article.getUrl());
 
-  if (!RedirectNumeric)
-    reply.redirect('/' + article.getUrl().toUtf8());
-
-  if (article.getLibraryMimeType() != zim::zimMimeTextHtml)
-  {
-    log_debug("send non-html data");
-    callComp("article", request, reply, qparam);
-    return HTTP_OK;
-  }
-
-  title = article.getTitle();
-
-  int type = request.getPathInfo()[0] == '-' ? typeSpecial : typeArticle;
+  reply.redirect('/' + article.getUrl().toUtf8());
 
 </%cpp>
-<& skin qparam nextComp="article" type=(type) >

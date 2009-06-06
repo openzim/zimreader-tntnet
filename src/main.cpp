@@ -17,16 +17,15 @@
  *
  */
 
+#include "main.h"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <tnt/tntnet.h>
 #include <tnt/httpreply.h>
 #include <tnt/worker.h>
-#include <tnt/tntconfig.h>
 #include <cxxtools/loginit.h>
 #include <cxxtools/arg.h>
-#include <cxxtools/inifile.h>
 #include <signal.h>
 
 log_define("zim.webapp.main")
@@ -46,6 +45,9 @@ namespace
   }
 }
 
+zim::File articleFile;
+zim::File indexFile;
+
 int main(int argc, char* argv[])
 {
   signal(SIGPIPE, SIG_IGN);
@@ -55,50 +57,36 @@ int main(int argc, char* argv[])
   {
     log_init();
 
-    const char* HOME = getenv("HOME");
-    std::string settingsfile;
-    if (HOME)
-    {
-      settingsfile = HOME;
-      settingsfile += '/';
-    }
-    settingsfile += ".ZimReader";
+    cxxtools::Arg<std::string> listenIp(argc, argv, 'l', "0.0.0.0");
+    cxxtools::Arg<unsigned short> port(argc, argv, 'p', 8080);
+    cxxtools::Arg<std::string> indexFileName(argc, argv, 'x');
+    cxxtools::Arg<bool> compression(argc, argv, 'z');
 
-    cxxtools::IniFile settings;
-    
-    try
+    if (argc != 2)
     {
-      settings = cxxtools::IniFile(settingsfile.c_str());
-    }
-    catch (const std::exception& e)
-    {
-      std::ofstream out(settingsfile.c_str());
-      out << "[ZimReader]\n"
-             "port=8080\n"
-             "localonly=1\n"
-             "directory=.\n";
-      out.close();
-      settings = cxxtools::IniFile(settingsfile.c_str());
+      std::cout << "usage: " << argv[0] << " [options] zim-file\n"
+                   "\t-l <ip>        listen ip (default 0.0.0.0)\n"
+                   "\t-p <port>      listen port (default 8080)\n"
+                   "\t-x <indexfile> full text index file name\n";
+                   "\t-z             enable http compression\n";
+      return -1;
     }
 
-    std::string listenIp = settings.getValue("ZimReader", "listen", "");
+    articleFile = zim::File(argv[1]);
+    indexFile = indexFileName.isSet() ? zim::File(indexFileName)
+                                      : articleFile;
 
-    if (listenIp.empty())
-    {
-      std::string localonly = settings.getValue("ZimReader", "localonly", "0");
-      log_debug("localonly=<" << localonly << "> b:" << isTrue(localonly));
-      listenIp = isTrue(localonly) ?  "127.0.0.1" : "0.0.0.0";
-    }
+    if (!articleFile.good())
+      throw std::runtime_error("articlefile not found");
 
-    unsigned short port = settings.getValueT<unsigned short>("ZimReader", "port", 8080);
-
-    std::string directory = settings.getValue("ZimReader", "directory", ".");
+    if (!indexFile.good())
+      throw std::runtime_error("indexfile not found");
 
     tnt::Tntnet app;
-    tnt::Worker::setEnableCompression(false);
+    tnt::Worker::setEnableCompression(compression);
     tnt::HttpReply::setDefaultContentType("text/html; charset=UTF-8");
 
-    std::cout << "IP " << listenIp << " port " << port << std::endl;
+    std::cout << "IP " << listenIp.getValue() << " port " << port.getValue() << std::endl;
     app.listen(listenIp, port);
 
     app.mapUrl("^/$",                          "redirect");
@@ -127,10 +115,6 @@ int main(int argc, char* argv[])
        .pushArg("$1.zim");
 
     app.mapUrl(".*", "notfound");
-
-    tnt::Tntconfig config;
-    config.setConfigValue("ZimPath", directory);
-    tnt::Comploader::configure(config);
 
     std::cout << "Wikipedia ist jetzt unter http://localhost:" << port << "/ verfügbar\n"
                  "Die Einstellungen können unter $HOME/.ZimReader geändert werden" << std::endl;
