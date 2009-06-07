@@ -65,6 +65,8 @@ int main(int argc, char* argv[])
     if (argc != 2)
     {
       std::cout << "usage: " << argv[0] << " [options] zim-file\n"
+                   "\n"
+                   "options:\n"
                    "\t-l <ip>        listen ip (default 0.0.0.0)\n"
                    "\t-p <port>      listen port (default 8080)\n"
                    "\t-x <indexfile> full text index file name\n";
