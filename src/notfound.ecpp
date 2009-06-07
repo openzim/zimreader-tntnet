@@ -1,11 +1,7 @@
-<%pre>
-#include <cxxtools/iconverter.h>
-</%pre>
 <%request>
 bool first(true);
 </%request>
 <%cpp>
-  static cxxtools::IConverter iso8859_utf8("ISO-8859-1", "UTF-8");
   if (first)
   {
     first = false;
@@ -16,4 +12,4 @@ bool first(true);
   }
 </%cpp>
 <p><strong>Die gew&uuml;nschte Seite wurde nicht gefunden:</strong></p>
-<ul><li><$ iso8859_utf8(request.getPathInfo()) $></li></ul>
+<ul><li><$ request.getPathInfo() $></li></ul>

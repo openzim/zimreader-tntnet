@@ -1,7 +1,3 @@
-<%config>
-bool DisableCache = false;
-Charset = "iso-8859-1";
-</%config>
 <%include>global.ecpp</%include>
 <%cpp>
 
@@ -26,7 +22,7 @@ Charset = "iso-8859-1";
     file = it->second;
   }
 
-  if (DisableCache || article.getUrl() != request.getPathInfo())
+  if (article.getUrl() != request.getPathInfo())
   {
     log_debug("search article " << request.getPathInfo());
     article = file.getArticle(request.getPathInfo());

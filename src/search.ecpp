@@ -46,18 +46,14 @@ double weightDistinctWords = zim::Search::getWeightDistinctWords();
 <%args>
 e;  // Begriff
 </%args>
-<%pre>
-#include <cxxtools/iconverter.h>
-</%pre>
 <%cpp>
 
   articles.clear();
 
   log_debug("search expression \"" << e << '"');
-  static cxxtools::IConverter iso8859_utf8("UTF-8", "ISO-8859-1");
   zim::Search search(articleFile, indexFile);
   result.clear();
-  search.search(result, iso8859_utf8(e));
+  search.search(result, e);
 
   log_debug(result.size() << " articles found");
 

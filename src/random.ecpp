@@ -3,7 +3,6 @@
 
 #include <time.h>
 #include <stdlib.h>
-#include <cxxtools/iconverter.h>
 #include <tnt/httperror.h>
 
 unsigned int seed = static_cast<unsigned int>(time(0));

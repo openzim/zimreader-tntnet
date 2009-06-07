@@ -1,7 +1,4 @@
 <%include>global.ecpp</%include>
-<%pre>
-#include <cxxtools/iconverter.h>
-</%pre>
 <%application>
 bool lastFoundUtf8(true);
 </%application>
@@ -18,17 +15,11 @@ bool lastFoundUtf8(true);
 
   char ns = request.getArgDef(0, "A").at(0);
 
-  static cxxtools::IConverter iso8859_utf8("UTF-8", "ISO-8859-1");
+  zim::QUnicodeString pathInfo = lastFoundUtf8 ? zim::QUnicodeString::fromUtf8(request.getPathInfo())
+                                               : zim::QUnicodeString::fromIso8859_15(request.getPathInfo());
 
-  zim::QUnicodeString pathInfo;
-  pathInfo = zim::QUnicodeString::fromUtf8(
-    lastFoundUtf8 ? request.getPathInfo()
-                  : iso8859_utf8.convert(request.getPathInfo()));
-
-  zim::QUnicodeString pathInfoAlt;
-  pathInfoAlt = zim::QUnicodeString::fromUtf8(
-    lastFoundUtf8 ? iso8859_utf8.convert(request.getPathInfo())
-                  : request.getPathInfo());
+  zim::QUnicodeString pathInfoAlt = lastFoundUtf8 ? zim::QUnicodeString::fromIso8859_15(request.getPathInfo())
+                                                  : zim::QUnicodeString::fromUtf8(request.getPathInfo());
 
   if (!article.good() || article.getUrl() != pathInfo && article.getUrl() != pathInfoAlt)
   {
