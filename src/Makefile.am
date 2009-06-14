@@ -25,6 +25,8 @@ ZimReader_SOURCES = zimcomp.ecpp skin.ecpp monobook_skin.ecpp \
 	openzim_skin.ecpp openzim_css.css GFDL.ecpp \
 	$(S)
 
+noinst_HEADERS = main.h
+
 ZimReader_LDFLAGS = -lzim -ltntnet
 
 EXTRA_DIST = global.ecpp

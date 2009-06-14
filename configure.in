@@ -1,4 +1,4 @@
-AC_INIT(zimreader, 0.1, [Tommi Maekitalo <tommi@tntnet.org>])
+AC_INIT(zimreader, 0.90, [Tommi Maekitalo <tommi@tntnet.org>])
 AM_INIT_AUTOMAKE([subdir-objects])
 
 abi_current=0
