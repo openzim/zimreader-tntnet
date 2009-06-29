@@ -36,9 +36,7 @@ if (article.good())
             <li id="n-mainpage"><a href="/" title="Hauptseite anzeigen [z]" accesskey="z">Hauptseite</a></li>
             <li><a href="/~/browse?a=" title="Von A bis Z [a]" accesskey="a">Von A bis Z</a></li>
             <li><a href="/~/random" title="Zuf&auml;lliger Artikel [x]" accesskey="x">Zuf&auml;lliger Artikel</a></li>
-% if (!result.empty()) {
             <li><a href="/~/search" title="Suchergebnis" accesskey="s">Suchergebnis</a></li>
-% }
            </ul>
           </div>
           <div id="search" class="portlet">
