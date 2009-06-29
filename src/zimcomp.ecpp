@@ -31,9 +31,9 @@ bool lastFoundUtf8(true);
 
   if (!article.good())
   {
-    log_debug("article not found with last encoding - try other one");
     if (pathInfoAlt != pathInfo)
     {
+      log_debug("article not found with last encoding - try other one");
       // different encoding has other result - try this one
       log_info("search article \"" << pathInfoAlt << "\" encoding " << (lastFoundUtf8 ? "iso-8859-1" : "utf-8"));
       article = articleFile.getArticle(ns, pathInfoAlt);
@@ -54,6 +54,16 @@ bool lastFoundUtf8(true);
   log_info("article " << pathInfo << " fetched - mime-type "
     << article.getLibraryMimeType() << " redirect " << article.isRedirect());
   log_debug("article index=" << article.getIndex());
+
+  std::string ifModifiedSince = request.getHeader(tnt::httpheader::ifModifiedSince);
+  std::string mTime = tnt::HttpMessage::htdate(articleFile.getMTime());
+  log_debug("ifModifiedSince=\"" << ifModifiedSince << "\" mTime=\"" << mTime << '"');
+  if (!ifModifiedSince.empty() && ifModifiedSince == mTime)
+  {
+    log_debug("not modified");
+    return HTTP_NOT_MODIFIED;
+  }
+  reply.setHeader(tnt::httpheader::lastModified, mTime);
 
   if (article.isRedirect())
   {
