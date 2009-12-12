@@ -4,7 +4,7 @@
   if (articleFile.getFileheader().hasMainPage())
   {
     zim::Dirent dirent = articleFile.getDirent(articleFile.getFileheader().getMainPage());
-    return reply.redirect(dirent.getUrl().toUtf8());
+    return reply.redirect(dirent.getLongUrl());
   }
 
   return DECLINED;

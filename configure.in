@@ -1,7 +1,7 @@
-AC_INIT(zimreader, 0.90, [Tommi Maekitalo <tommi@tntnet.org>])
+AC_INIT(zimreader, 0.92, [Tommi Maekitalo <tommi@tntnet.org>])
 AM_INIT_AUTOMAKE([subdir-objects])
 
-abi_current=0
+abi_current=1
 abi_revision=0
 abi_age=0
 sonumber=${abi_current}:${abi_revision}:${abi_age}
@@ -17,6 +17,12 @@ AC_LANG(C++)
 
 AC_CHECK_HEADER([zim/file.h], , AC_MSG_ERROR([zimlib headers not found]))
 AC_CHECK_HEADER([tnt/tntnet.h], , AC_MSG_ERROR([tntnet headers not found]))
+
+AC_COMPILE_IFELSE([
+    #include <zim/article.h>
+    void foo() { zim::Article a; a.getUrl(); }
+    ],,
+    AC_MSG_ERROR([zimlibrary do not work - please update]))
 
 # output
 AC_CONFIG_FILES([

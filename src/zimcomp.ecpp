@@ -1,7 +1,4 @@
 <%include>global.ecpp</%include>
-<%application>
-bool lastFoundUtf8(true);
-</%application>
 <%cpp>
 
   if (request.getArgs().size() == 0)
@@ -15,40 +12,20 @@ bool lastFoundUtf8(true);
 
   char ns = request.getArgDef(0, "A").at(0);
 
-  zim::QUnicodeString pathInfo = lastFoundUtf8 ? zim::QUnicodeString::fromUtf8(request.getPathInfo())
-                                               : zim::QUnicodeString::fromIso8859_15(request.getPathInfo());
+  std::string pathInfo = request.getPathInfo();
 
-  zim::QUnicodeString pathInfoAlt = lastFoundUtf8 ? zim::QUnicodeString::fromIso8859_15(request.getPathInfo())
-                                                  : zim::QUnicodeString::fromUtf8(request.getPathInfo());
-
-  if (!article.good() || article.getUrl() != pathInfo && article.getUrl() != pathInfoAlt)
+  if (!article.good() || article.getUrl() != pathInfo)
   {
-    log_info("search article \"" << pathInfo << "\" namespace " << ns << " encoding " << (lastFoundUtf8 ? "utf-8" : "iso-8859-1"));
+    log_info("search article \"" << pathInfo << "\" namespace " << ns);
     article = articleFile.getArticle(ns, pathInfo);
   }
   else
-    log_debug("use previous article " << (lastFoundUtf8 ? pathInfo : pathInfoAlt));
+    log_debug("use previous article " << pathInfo);
 
   if (!article.good())
   {
-    if (pathInfoAlt != pathInfo)
-    {
-      log_debug("article not found with last encoding - try other one");
-      // different encoding has other result - try this one
-      log_info("search article \"" << pathInfoAlt << "\" encoding " << (lastFoundUtf8 ? "iso-8859-1" : "utf-8"));
-      article = articleFile.getArticle(ns, pathInfoAlt);
-    }
-
-    if (article.good())
-    {
-      lastFoundUtf8 = !lastFoundUtf8;
-      log_debug("switch to " << (lastFoundUtf8 ? "utf-8" : "iso-8859-1"));
-    }
-    else
-    {
-      log_warn("article " << pathInfo << " not found");
-      return DECLINED;
-    }
+    log_warn("article " << pathInfo << " not found");
+    return DECLINED;
   }
 
   log_info("article " << pathInfo << " fetched - mime-type "
@@ -68,8 +45,8 @@ bool lastFoundUtf8(true);
   if (article.isRedirect())
   {
     article = article.getRedirectArticle();
-    log_debug("redirect to " << article.getTitle().toUtf8());
-    return reply.redirect(article.getTitle().toUtf8());
+    log_debug("redirect to " << article.getUrl());
+    return reply.redirect(article.getUrl());
   }
   else if (article.getLibraryMimeType() != zim::zimMimeTextHtml)
   {

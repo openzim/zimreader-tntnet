@@ -6,6 +6,6 @@ unsigned n = 20; // items per page
 <&pager qparam link="/~/search?" rs=(result.size())>
 <ul>
 % for (unsigned i = s; i < t; ++i) {
-    <li><a href="/<$$ result[i].getArticle().getUrl() $>"><$$ result[i].getArticle().getTitle().toXML() $></a></li>
+    <li><a href="/<$ result[i].getArticle().getLongUrl() $>"><$ result[i].getArticle().getTitle() $></a></li>
 % }
 </ul>

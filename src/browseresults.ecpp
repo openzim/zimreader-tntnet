@@ -17,7 +17,7 @@ unsigned n = 20; // items per page
     bresult.clear();
     zim::Search search(articleFile, indexFile);
     log_debug("find \"" << a << '"');
-    search.find(bresult, ns, zim::QUnicodeString::fromUtf8(a));
+    search.find(bresult, ns, a);
     browse_a = a;
     ns_a = ns;
   }
@@ -27,6 +27,6 @@ unsigned n = 20; // items per page
 <hr>
 <ul>
 % for (unsigned i = s; i < bresult.size() && i < t; ++i) {
-    <li><a href="/<$$ bresult[i].getArticle().getUrl() $>"><$$ bresult[i].getArticle().getTitle().toXML() $></a></li>
+    <li><a href="/<$ bresult[i].getArticle().getLongUrl() $>"><$ bresult[i].getArticle().getTitle() $></a></li>
 % }
 </ul>

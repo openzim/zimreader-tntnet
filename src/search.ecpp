@@ -34,7 +34,7 @@ double weightDistinctWords = zim::Search::getWeightDistinctWords();
   }
   else
   {
-    title = zim::QUnicodeString("Suche nach: " + result.getExpression());
+    title = "Suche nach: " + result.getExpression();
 </%cpp>
 <& skin qparam nextComp="searchresults" type=(typeSpecial) >
 <%cpp>
@@ -57,7 +57,7 @@ e;  // Begriff
 
   log_debug(result.size() << " articles found");
 
-  title = zim::QUnicodeString("Suche nach: " + e);
+  title = "Suche nach: " + e;
 
 </%cpp>
 <& skin qparam nextComp="searchresults" type=(typeSpecial) >

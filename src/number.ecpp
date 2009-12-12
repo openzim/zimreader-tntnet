@@ -6,6 +6,6 @@
   article = articleFile.getArticle(idx);
   log_info("choose article " << article.getIndex() << ": " << article.getTitle() << " url:" << article.getUrl());
 
-  reply.redirect('/' + article.getUrl().toUtf8());
+  reply.redirect('/' + article.getLongUrl());
 
 </%cpp>

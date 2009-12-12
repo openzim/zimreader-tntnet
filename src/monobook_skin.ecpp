@@ -9,7 +9,7 @@ ns = "A";
 
 std::string url;
 if (article.good())
-  url = '/' + article.getUrl().toUtf8();
+  url = article.getLongUrl();
 
 </%cpp>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -18,7 +18,7 @@ if (article.good())
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    <link rel="shortcut icon" href="/-/favicon.ico" />
    <link rel="copyright" href="http://www.gnu.org/copyleft/fdl.html" />
-    <title><$$title.toXML()$> - Wikipedia</title>
+    <title><$ title $> - Wikipedia</title>
     <style type="text/css" media="screen,projection">/*<![CDATA[*/ @import "/-/main.css"; /*]]>*/</style>
     <link rel="stylesheet" type="text/css" media="print" href="/-/commonPrint.css" />
     <!--[if lt IE 5.5000]><style type="text/css">@import "/-/IE50Fixes.css";</style><![endif]-->
@@ -57,8 +57,8 @@ if (article.good())
       <div id="column-content">
         <div id="content">
           <a name="top" id="top"></a>
-% if (!title.getValue().empty()) {
-          <h1 class="firstHeading"><$$title.toXML()$></h1>
+% if (!title.empty()) {
+          <h1 class="firstHeading"><$ title $></h1>
 % }
           <div id="bodyContent">
             <h3 id="siteSub">aus Wikipedia, der freien Enzyklop&auml;die</h3>

@@ -2,7 +2,6 @@
 #include <zim/article.h>
 #include <zim/articlesearch.h>
 #include <zim/search.h>
-#include <zim/qunicode.h>
 #include <cxxtools/timespan.h>
 #include "main.h"
 
@@ -24,7 +23,7 @@ zim::ArticleSearch::Results articles;
 </%session>
 <%request scope="global">
 cxxtools::Timespan t0(cxxtools::Timespan::gettimeofday());
-zim::QUnicodeString title;
+std::string title;
 unsigned s;
 unsigned t;
 </%request>

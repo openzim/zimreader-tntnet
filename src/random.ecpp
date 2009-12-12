@@ -23,6 +23,6 @@ unsigned int seed = static_cast<unsigned int>(time(0));
 
   log_info("choose article " << article.getIndex() << ": " << article.getTitle());
 
-  reply.redirect('/' + article.getUrl().toUtf8());
+  reply.redirect('/' + article.getLongUrl());
 
 </%cpp>
