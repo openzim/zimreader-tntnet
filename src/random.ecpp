@@ -18,7 +18,7 @@ unsigned int seed = static_cast<unsigned int>(time(0));
     log_debug("consider article " << article.getIndex() << ": " << article.getTitle());
     log_debug("mime-type: " << article.getLibraryMimeType() << " namespace: " << article.getNamespace());
 
-  } while (article.getLibraryMimeType() != zim::zimMimeTextHtml
+  } while (article.getMimeType() != "text/html"
         || article.getNamespace() != 'A');
 
   log_info("choose article " << article.getIndex() << ": " << article.getTitle());

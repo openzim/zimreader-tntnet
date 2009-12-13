@@ -48,7 +48,7 @@
     log_debug("redirect to " << article.getUrl());
     return reply.redirect(article.getUrl());
   }
-  else if (article.getLibraryMimeType() != zim::zimMimeTextHtml)
+  else if (article.getMimeType() != "text/html")
   {
     log_debug("send non-html data");
     callComp("article", request, reply, qparam);
