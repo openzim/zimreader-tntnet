@@ -12,12 +12,12 @@ SUFFIXES=.ecpp .gif .jpg .css .js .ico
 
 AM_CPPFLAGS=-I$(top_builddir)/include
 
-bin_PROGRAMS = ZimReader
+bin_PROGRAMS = zimreader
 
 S = commonPrint_css.css main_css.css wikibits_js.js monobookde_css.css \
     user_css.css zimwp_css.css Wiki_png.png common_css.css headbg_jpg.jpg
 
-ZimReader_SOURCES = zimcomp.ecpp skin.ecpp monobook_skin.ecpp \
+zimreader_SOURCES = zimcomp.ecpp skin.ecpp monobook_skin.ecpp \
 	search.ecpp searcharticles.ecpp searchresults.ecpp article.ecpp \
 	tntnet_png.png random.ecpp notfound.ecpp number.ecpp \
 	pager.ecpp browse.ecpp browsescreen.ecpp browseresults.ecpp \
@@ -27,6 +27,6 @@ ZimReader_SOURCES = zimcomp.ecpp skin.ecpp monobook_skin.ecpp \
 
 noinst_HEADERS = main.h
 
-ZimReader_LDFLAGS = -lzim -ltntnet
+zimreader_LDFLAGS = -lzim -ltntnet
 
 EXTRA_DIST = global.ecpp
