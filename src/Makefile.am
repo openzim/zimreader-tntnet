@@ -27,6 +27,6 @@ zimreader_SOURCES = zimcomp.ecpp skin.ecpp monobook_skin.ecpp \
 
 noinst_HEADERS = main.h
 
-zimreader_LDFLAGS = -lzim -ltntnet
+zimreader_LDFLAGS = -lzim -ltntnet -lcxxtools
 
 EXTRA_DIST = global.ecpp

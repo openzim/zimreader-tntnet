@@ -18,10 +18,11 @@ AC_LANG(C++)
 AC_CHECK_HEADER([zim/file.h], , AC_MSG_ERROR([zimlib headers not found]))
 AC_CHECK_HEADER([tnt/tntnet.h], , AC_MSG_ERROR([tntnet headers not found]))
 
-AC_COMPILE_IFELSE([
+AC_COMPILE_IFELSE(
+    [AC_LANG_SOURCE([
     #include <zim/article.h>
     void foo() { zim::Article a; a.getUrl(); }
-    ],,
+    ])],,
     AC_MSG_ERROR([zimlibrary do not work - please update]))
 
 # output

@@ -1,7 +1,10 @@
 <%include>global.ecpp</%include>
+<%pre>
+#include <cxxtools/convert.h>
+</%pre>
 <%cpp>
 
-  zim::size_type idx = tnt::stringTo<zim::size_type>(request.getPathInfo());
+  zim::size_type idx = cxxtools::convert<zim::size_type>(request.getPathInfo());
 
   article = articleFile.getArticle(idx);
   log_info("choose article " << article.getIndex() << ": " << article.getTitle() << " url:" << article.getUrl());
