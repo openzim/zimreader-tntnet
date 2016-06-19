@@ -10,7 +10,7 @@ SUFFIXES=.ecpp .gif .jpg .css .js .ico
 .css.cpp:
 	ecppc $(ECPPFLAGS) -b $(ECPPFLAGS_CSS) $<
 
-AM_CPPFLAGS=-I$(top_builddir)/include
+AM_CPPFLAGS=-I$(top_srcdir)/include
 
 bin_PROGRAMS = zimreader
 
