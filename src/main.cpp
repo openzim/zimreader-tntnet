@@ -23,8 +23,8 @@
 #include <algorithm>
 #include <tnt/tntnet.h>
 #include <tnt/httpreply.h>
-#include <tnt/worker.h>
-#include <cxxtools/loginit.h>
+#include <tnt/configurator.h>
+#include <cxxtools/log.h>
 #include <cxxtools/arg.h>
 #include <signal.h>
 
@@ -85,8 +85,9 @@ int main(int argc, char* argv[])
       throw std::runtime_error("indexfile not found");
 
     tnt::Tntnet app;
-    tnt::Worker::setEnableCompression(compression);
-    tnt::HttpReply::setDefaultContentType("text/html; charset=UTF-8");
+    tnt::Configurator conf(app);
+    conf.setEnableCompression(compression);
+    conf.setDefaultContentType("text/html; charset=UTF-8");
 
     std::cout << "IP " << listenIp.getValue() << " port " << port.getValue() << std::endl;
     app.listen(listenIp, port);
@@ -98,23 +99,31 @@ int main(int argc, char* argv[])
     app.mapUrl("^/~/([^.]+)$",                 "$1");
     app.mapUrl("^/~/([^.]+)\\.([^.]*)$",       "$1_$2");
 
+    tnt::Mapping::args_type argMap1;
+    argMap1.insert(std::make_pair("mime-type", "$1"));
     app.mapUrl("^/(.)/(.+.svg)$", "zimcomp")
        .setPathInfo("$2.png")
-       .pushArg("$1");
+       .setArgs(argMap1);
 
+    tnt::Mapping::args_type argMap2;
+    argMap2.insert(std::make_pair("mime-type", "$1.zim"));
+    argMap2.insert(std::make_pair("mime-type", "$2"));
     app.mapUrl("^/(.+)/(.)/(.+.svg)$", "zimcomp")
        .setPathInfo("$3.png")
-       .pushArg("$1.zim")
-       .pushArg("$2");
+       .setArgs(argMap2);
 
+    tnt::Mapping::args_type argMap3;
+    argMap3.insert(std::make_pair("mime-type", "$1"));
     app.mapUrl("^/(.)/(.+)$", "zimcomp")
        .setPathInfo("$2")
-       .pushArg("$1");
+       .setArgs(argMap3);
 
+    tnt::Mapping::args_type argMap4;
+    argMap4.insert(std::make_pair("mime-type", "$2"));
+    argMap4.insert(std::make_pair("mime-type", "$1.zim"));
     app.mapUrl("^/(.+)/(.)/(.+)$", "zimcomp")
        .setPathInfo("$3")
-       .pushArg("$2")
-       .pushArg("$1.zim");
+       .setArgs(argMap4);
 
     app.mapUrl(".*", "notfound");
 
